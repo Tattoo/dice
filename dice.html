@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>DICE</title>
+    <style type="text/css">
+      #container {
+        max-width: 200px;
+        margin: 0 auto;
+      }
+      
+      #result {
+        height: 4em;
+        background-color: #eee;
+        margin-bottom: 1em;
+        font-size: 2em;
+        text-align: center;
+      }
+      
+      #roll {
+        width: 100%;
+        height: 2em;
+        font-size: 2em;
+        margin-bottom: 0.4em;
+      }
+      
+      #btn {
+        font-variant: small-caps;
+        width: 100%;
+        height: 2em;
+        line-height: 2em;
+        font-size: 2em;
+      }
+    </style>
+    <script type="text/javascript">
+      function g( id_selector ) {
+        return document.getElementById( id_selector );
+      }
+      
+      function roll( dice, times ) {
+        var roll = 0,
+            dice = Number(dice),
+            times = Number(times);
+            
+        while ( times > 0 ){
+          // 1 is the lowest you can roll
+          roll += Math.floor(Math.random() * dice + 1 );
+          times--;
+        }
+        return "" + roll;
+      }
+      
+      function handle( ev ) {
+        var result = /(\d+)d(\d+)/.exec( g( "roll" ).value );
+
+        if ( result && result.length >= 3 ) {
+          g( "result" ).innerHTML = roll( result[2], result[1] );
+        }
+      }
+      
+      window.onload = function(){
+        
+        g( "btn" ).onclick = handle;
+        
+        g( "roll" ).onkeypress = function( ev ){
+          if ( ev.keyCode == 13 ) {
+            handle( ev );
+          }
+        }
+        
+        g( "roll" ).focus();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="result"></div>
+      <input type="text" id="roll" />
+      <button id="btn">roll</button>      
+    </div>
+  </body>
+</html>
